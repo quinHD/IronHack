@@ -1,0 +1,4 @@
+Base Alfredo @AlfredoCasado 1000
+Hour Juan juan@gmail.com 40 50 
+Hour Steven 605242478 50 50
+BasePlusHour Peter peter@gmail.com 1000 10 40
