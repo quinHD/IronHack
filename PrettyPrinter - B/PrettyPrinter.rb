@@ -22,7 +22,14 @@ class PrettyPrinter
 				string_to_print << item.to_s
 				string_to_print << "\n"
 			elsif item.is_a? (Hash)
-				string_to_print << "\n"
+				string_to_print << "\t"*deep
+				string_to_print << "Hash: \n"
+				item.each do |key, value|
+					string_to_print << "\t"*(deep+1)
+					string_to_print << "#{key} -> #{value}"
+					string_to_print << "\n"
+
+				end
 			
 			elsif
 			   (item.is_a? Integer) || (item.is_a? String)
@@ -40,29 +47,40 @@ class PrettyPrinter
 
 end
 
-#puts PrettyPrinter.new.print(["hola", 5,["nivel2", 34, "muy confidencial"], "hhh",[[8,7,8],7]])
-#puts PrettyPrinter.new.print([1,2,3,["A","B"]])
-
-a_hash = {key: "value", other_key: "other_value"}
-a_date = Date.today
 
 
-#puts PrettyPrinter.new.print(["My", 3, a_date, ["Pied", "Piper"] ])
+
+puts PrettyPrinter.new.print()
+
 
 RSpec.describe "Pretty Printer" do
+	before :each do
+		@printer = PrettyPrinter.new
+	end
+
 	it "print empty string" do
-		expect(PrettyPrinter.new.print([])).to eq("Array:\n")
+		expect(@printer.print([])).to eq("Array:\n")
 	end
-end
 
-RSpec.describe "Pretty Printer" do
 	it "print one element" do
-		expect(PrettyPrinter.new.print([3])).to eq("Array:\n\t3\n")
+		expect(@printer.print([3])).to eq("Array:\n\t3\n")
 	end
-end
 
-RSpec.describe "Pretty Printer" do
 	it "print two elements" do
-		expect(PrettyPrinter.new.print([3, "hola"])).to eq("Array:\n\t3\n\thola\n")
+		expect(@printer.print([3, "hola"])).to eq("Array:\n\t3\n\thola\n")
 	end
+
+	it "print 5 element including hash, date, array" do
+		a_hash = {key: "value", colors: ["red", "green", "white"]}
+		a_date = Date.today
+		expect(@printer.print(["My", 3,a_hash, a_date, ["Pied", "Piper"] ])).to eq("Array:\n\tMy\n\t3\n\tHash: \n\t\tkey -> value\n\t\tcolors -> [\"red\", \"green\", \"white\"]\n\t2014-11-03\n\tArray: \n\t\tPied\n\t\tPiper\n")
+	end
+
+	it "print many nested arrays" do
+		a_hash = {key: "value", colors: ["red", "green", "white"]}
+		a_date = Date.today
+		expect(@printer.print([[[[["A","B"],"C"],"D"],"E"],"F"])).to eq("Array:\n\tArray: \n\t\tArray: \n\t\t\tArray: \n\t\t\t\tArray: \n\t\t\t\t\tA\n\t\t\t\t\tB\n\t\t\t\tC\n\t\t\tD\n\t\tE\n\tF\n")
+	end
+
+
 end
