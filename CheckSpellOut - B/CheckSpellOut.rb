@@ -1,7 +1,7 @@
 class CheckSpellOut
 
 	def initialize 
-		@array_units_tens_number_to_letter=[
+		@to_19_array=[
 			"zero",
 			"one",
 			"two",
@@ -24,34 +24,71 @@ class CheckSpellOut
 			"nineteen"
 		]
 
-		@hash_tens_prefix = {
-			"2" => "twenty",
-			"3" => "thirty",
-			"4" => "fourty",
-			"5" => "fifty",
-			"6" => "sixty",
-			"7" => "seventy",
-			"8" => "eighty",
-			"9" => "ninety"
-		}
+		@to_tens_array= [
+			"",
+			"",
+			"twenty",
+			"thirty",
+			"fourty",
+			"fifty",
+			"sixty",
+			"seventy",
+			"eighty",
+			"ninety"
+		]
+
+		@amounts_array = [
+			"",
+			"thousand",
+			"millions",
+			"billions",
+			"trillion"
+		]
+		@str_total = ""
 	end
 
 	def spell num
-		if num< 20
-			return @array_units_tens_number_to_letter[num]
-		else
-			str = ""
-			str << @hash_tens_prefix[(num / 10).to_s]
-			
-			if( num % 10 >0)
-				str << "-"
-				str << @array_units_tens_number_to_letter[num % 10]
-			end
-			return str
-		end
+		start_spell num
 	end
 
+	def start_spell num
+		if(num >0)
+			if num <100
+				to_tens num
+			elsif num <999
+				to_hundreds num
+			else
+				start_spell/1000
+			end
+		else
+			return @str_total
+		end
+
+	end 
+
+	def to_tens num 
+		if(num<20)
+			@str_total << @to_19_array[num].to_s
+		elsif (num<100)
+			if(num % 10 == 0)
+				@str_total <<"#{@to_tens_array[num/10]}"
+			else
+				@str_total <<"#{@to_tens_array[num/10]} #{@to_19_array[num%10]}"
+			end
+		end
+
+		return @str_total
+	end
+
+	def to_hundreds num
+		if num>= 100 && num <999
+			@str_total << "#{to_tens(num/100)} hundred "
+			return @str_total
+		end
+		
+	end
 end
+
 
 RSpec.describe "Check Spell Out" do
 	before :each do
@@ -83,7 +120,7 @@ RSpec.describe "Check Spell Out" do
 	end
 
 	it "print number 23" do
-		expect(@speller.spell(23)).to eq("twenty-three")
+		expect(@speller.spell(23)).to eq("twenty three")
 	end
 
 	it "print number 20" do
@@ -91,7 +128,27 @@ RSpec.describe "Check Spell Out" do
 	end
 
 	it "print number 35" do
-		expect(@speller.spell(35)).to eq("thirty-five")
+		expect(@speller.spell(35)).to eq("thirty five")
+	end
+
+	it "print number 99" do
+		expect(@speller.spell(99)).to eq("ninety nine")
+	end
+
+	it "print number 255" do
+		expect(@speller.spell(255)).to eq("two hundred fifty five")
+	end
+
+	it "print number 999" do
+		expect(@speller.spell(999)).to eq("nine hundred ninety nine")
+	end
+
+	it "print number 2565" do
+		expect(@speller.spell(2565)).to eq("two thousand five hundred sixty five")
+	end
+
+	it "print number 32565" do
+		expect(@speller.spell(32565)).to eq("thirty two thousand five hundred sixty five")
 	end
 
 end
