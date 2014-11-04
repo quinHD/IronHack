@@ -13,9 +13,7 @@ class PrintableItem
 			p == "" ? p = NoPrintable.new : false
 			p.pretty_print item, string_to_print, deep
 		end
-
 	end
-
 end
 
 

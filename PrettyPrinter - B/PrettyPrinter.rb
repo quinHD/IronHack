@@ -32,7 +32,10 @@ RSpec.describe "Pretty Printer" do
 	end
 
 	it "print one element" do
-		expect(@printer.print([3])).to eq("Array:\n\t3\n")
+		class A
+		end
+
+		expect(@printer.print([3, A.new])).to eq("Array:\n\t3\n\tAn object I don't know how to print\n")
 	end
 
 	it "print two elements" do
