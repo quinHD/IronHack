@@ -1,7 +1,6 @@
 class PassStrengthChecker
 
 	def check_pass_strength pass, email
-		flag = false
 		pass_test_list=[
 			Short_Pass_Checker.new,
 			Upper_Lower_Case_Checker.new,
@@ -9,13 +8,7 @@ class PassStrengthChecker
 			Name_Domain_In_Email_Checker.new
 		]
 
-		i=0
-		while flag==false && i<pass_test_list.length
-			flag = pass_test_list[i].check_pass pass.to_s, email.to_s
-			i+=1
-		end
-
-		return flag
+		pass_test_list.find {|test| test.check_pass pass, email}
 	end
 end
 

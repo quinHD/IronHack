@@ -1,3 +1,4 @@
+
 require './PassStrengthChecker'
 
 class PasswordChecker
@@ -8,13 +9,13 @@ class PasswordChecker
 	end
 
 	def check_password email, password 
-
-		flag = @pass_strength_checker.check_pass_strength password, email
-		
-		if flag
+		if is_password_weak? email, password 
 			@mailer.send_mail()
 		end
-		
 	end
-end
 
+	def is_password_weak? email, password 
+		@pass_strength_checker.check_pass_strength password, email
+	end
+		
+end
