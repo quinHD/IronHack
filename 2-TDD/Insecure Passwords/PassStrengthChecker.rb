@@ -46,8 +46,6 @@ class Name_Domain_In_Email_Checker
 		email_tokens = email_tokens[1].split('.')
 		domain = email_tokens[0]
 
-		a = (pass.include? name) || (pass.include? domain)
-		
-		a
+		(pass.include? name) || (pass.include? domain)
 	end
 end
