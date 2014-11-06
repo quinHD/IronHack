@@ -1,0 +1,28 @@
+<html>
+    <head>
+    	<title> Prueba Artii</title>
+	</head>
+	<body>
+		<form action="/result" method="POST">
+
+			<div id="inputsContent">
+				<input type="text" name="operatorA" >
+				<input type="text" name="operatorB" >
+			</div>
+			<div id="operationsContent">
+				<input name="do_operation" type="submit" value="add" text="add">
+				<input name="do_operation" type="submit" value="minus" text="minus">
+				<input name="do_operation" type="submit" value="times" text="times">
+				<input name="do_operation" type="submit" value="divide" text="divide">
+			</div>
+		</form>
+
+		<form action="/counting" method="GET">
+			<div id="extraContent">
+				<input name="do_operation" type="submit" value="count" text="count">
+			</div>
+		</form>
+
+	</body>
+</html>
+
