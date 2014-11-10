@@ -1,0 +1,20 @@
+<html>
+
+<head>
+	<title>Movie Lovers</title>
+</head>
+
+<body>
+	Qué película es del año <%=@winner_year%>: 
+	<div>
+		<% @posters.each do |film| %>
+			<% if film[:year]== @winner_year %>
+				<img  height="360" width="200" src="<%= film[:poster] %>" onclick="alert('Ganador!!');">
+			<% else %>
+				<img  height="360" width="200" src="<%= film[:poster] %>" onclick="alert('Loooooooooooooser!!');">
+			<% end %>
+		<% end %>
+	</div>
+</body>
+
+</html>
